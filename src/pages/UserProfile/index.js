@@ -5,9 +5,9 @@ import {Header, List, Profile, Gap} from '../../components';
 const UserProfile = ({navigation}) => {
   return (
     <View style={styles.page}>
-      <Header title="Profile" />
+      <Header title="Profile" onPress={() => navigation.goBack()} />
       <Gap height={10} />
-      <Profile />
+      <Profile name="Shayna Melinda" desc="Product Designer" />
       <Gap height={14} />
       <List
         name="Edit Profile"
