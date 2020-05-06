@@ -8,29 +8,32 @@ import {showMessage} from 'react-native-flash-message';
 import {Fire} from '../../config';
 
 const UploadPhoto = ({navigation, route}) => {
-  const {fullName, profession, uid} = route.params;
+  // const {fullName, profession, uid} = route.params;
   const [photoForDB, setPhotoForDB] = useState('');
   const [hasPhoto, setHasPhoto] = useState(false);
   const [photo, setPhoto] = useState(ILNullPhoto);
   const getImage = () => {
-    ImagePicker.launchImageLibrary({}, response => {
-      console.log('response: ', response);
-      if (response.didCancel || response.error) {
-        showMessage({
-          message: 'oops, sepertinya anda tidak memilih foto nya?',
-          type: 'default',
-          backgroundColor: colors.error,
-          color: colors.white,
-        });
-      } else {
-        console.log('response getImage: ', response);
-        const source = {uri: response.uri};
+    ImagePicker.launchImageLibrary(
+      {quality: 0.5, maxWidth: 200, maxHeight: 200},
+      response => {
+        console.log('response: ', response);
+        if (response.didCancel || response.error) {
+          showMessage({
+            message: 'oops, sepertinya anda tidak memilih foto nya?',
+            type: 'default',
+            backgroundColor: colors.error,
+            color: colors.white,
+          });
+        } else {
+          console.log('response getImage: ', response);
+          const source = {uri: response.uri};
 
-        setPhotoForDB(`data:${response.type};base64, ${response.data}`);
-        setPhoto(source);
-        setHasPhoto(true);
-      }
-    });
+          setPhotoForDB(`data:${response.type};base64, ${response.data}`);
+          setPhoto(source);
+          setHasPhoto(true);
+        }
+      },
+    );
   };
 
   const uploadAndContinue = () => {
@@ -50,8 +53,8 @@ const UploadPhoto = ({navigation, route}) => {
             {hasPhoto && <IconRemovePhoto style={styles.addPhoto} />}
             {!hasPhoto && <IconAddPhoto style={styles.addPhoto} />}
           </TouchableOpacity>
-          <Text style={styles.name}>{fullName}</Text>
-          <Text style={styles.profession}>{profession}</Text>
+          <Text style={styles.name}>Nama</Text>
+          <Text style={styles.profession}>profesi</Text>
         </View>
         <View>
           <Button
