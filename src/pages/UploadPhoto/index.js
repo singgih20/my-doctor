@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {Header, Button, Link, Gap} from '../../components';
 import {ILNullPhoto, IconAddPhoto, IconRemovePhoto} from '../../assets';
-import {colors, fonts} from '../../utils';
+import {colors, fonts, storeData} from '../../utils';
 import ImagePicker from 'react-native-image-picker';
 import {showMessage} from 'react-native-flash-message';
 import {Fire} from '../../config';
 
 const UploadPhoto = ({navigation, route}) => {
-  // const {fullName, profession, uid} = route.params;
+  const {fullName, profession, uid} = route.params;
   const [photoForDB, setPhotoForDB] = useState('');
   const [hasPhoto, setHasPhoto] = useState(false);
   const [photo, setPhoto] = useState(ILNullPhoto);
@@ -41,6 +41,11 @@ const UploadPhoto = ({navigation, route}) => {
       .ref('users/' + uid + '/')
       .update({photo: photoForDB});
 
+    const data = route.params;
+    data.photo = photoForDB;
+
+    storeData('user', data);
+
     navigation.replace('MainApp');
   };
   return (
@@ -53,8 +58,8 @@ const UploadPhoto = ({navigation, route}) => {
             {hasPhoto && <IconRemovePhoto style={styles.addPhoto} />}
             {!hasPhoto && <IconAddPhoto style={styles.addPhoto} />}
           </TouchableOpacity>
-          <Text style={styles.name}>Nama</Text>
-          <Text style={styles.profession}>profesi</Text>
+          <Text style={styles.name}>{fullName}</Text>
+          <Text style={styles.profession}>{profession}</Text>
         </View>
         <View>
           <Button
