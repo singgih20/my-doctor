@@ -12,9 +12,6 @@ const ChooseDoctor = ({navigation, route}) => {
   }, [itemCategory.category]);
 
   const callDoctorByCategory = category => {
-    // dokter umum
-    // psikiater
-
     Fire.database()
       .ref('doctors/')
       .orderByChild('category')
@@ -51,7 +48,7 @@ const ChooseDoctor = ({navigation, route}) => {
             profile={{uri: doctor.data.photo}}
             name={doctor.data.fullName}
             desc={doctor.data.gender}
-            onPress={() => navigation.navigate('Chatting')}
+            onPress={() => navigation.navigate('DoctorProfile', doctor)}
           />
         );
       })}
