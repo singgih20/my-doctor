@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {DummyDoctor1, DummyDoctor2, DummyDoctor3} from '../../assets';
 import {
   DoctorCategory,
   Gap,
@@ -96,7 +95,7 @@ const Doctor = ({navigation}) => {
                     <DoctorCategory
                       key={item.id}
                       category={item.category}
-                      onPress={() => navigation.navigate('ChooseDoctor')}
+                      onPress={() => navigation.navigate('ChooseDoctor', item)}
                     />
                   );
                 })}
