@@ -53,7 +53,9 @@ const Doctor = ({navigation}) => {
       .then(res => {
         console.log('category doctor: ', res.val());
         if (res.val()) {
-          setCategoryDoctor(res.val());
+          const data = res.val();
+          const filterData = data.filter(el => el !== null);
+          setCategoryDoctor(filterData);
         }
       })
       .catch(err => {
@@ -66,9 +68,11 @@ const Doctor = ({navigation}) => {
       .ref('news/')
       .once('value')
       .then(res => {
-        console.log('data: ', res.val());
         if (res.val()) {
-          setNews(res.val());
+          const data = res.val();
+          const filterData = data.filter(el => el !== null);
+          console.log('data news filter: ', filterData);
+          setNews(filterData);
         }
       })
       .catch(err => {
@@ -93,7 +97,7 @@ const Doctor = ({navigation}) => {
                 {categoryDoctor.map(item => {
                   return (
                     <DoctorCategory
-                      key={item.id}
+                      key={`category-${item.id}`}
                       category={item.category}
                       onPress={() => navigation.navigate('ChooseDoctor', item)}
                     />
@@ -121,7 +125,7 @@ const Doctor = ({navigation}) => {
           {news.map(item => {
             return (
               <NewsItem
-                key={item.id}
+                key={`news-${item.id}`}
                 title={item.title}
                 date={item.date}
                 image={item.image}
