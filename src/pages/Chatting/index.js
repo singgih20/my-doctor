@@ -1,7 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {Header, ChatItem, InputChat} from '../../components';
-import {fonts, colors, getData, showError} from '../../utils';
+import {
+  fonts,
+  colors,
+  getData,
+  showError,
+  getChatTime,
+  setDateChat,
+} from '../../utils';
 import {Fire} from '../../config';
 
 const Chatting = ({navigation, route}) => {
@@ -17,34 +24,24 @@ const Chatting = ({navigation, route}) => {
   }, []);
 
   const chatSend = () => {
-    console.log('user: ', user);
     const today = new Date();
-    const hour = today.getHours();
-    const minutes = today.getMinutes();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
 
     const data = {
       sendBy: user.uid,
-      chatDate: new Date().getTime(),
-      chatTime: `${hour}:${minutes} ${hour > 12 ? 'PM' : 'AM'}`,
+      chatDate: today.getTime(),
+      chatTime: getChatTime(today),
       chatContent: chatContent,
     };
+
+    const chatID = `${user.uid}_${dataDoctor.data.uid}`;
+
+    const urlFirebase = `chatting/${chatID}/allChat/${setDateChat(today)}`;
+
     console.log('data untuk di kirim: ', data);
-    console.log(
-      'url firebase: ',
-      `chatting/${user.uid}_${
-        dataDoctor.data.uid
-      }/allChat/${year}-${month}-${date}`,
-    );
-    // kirim ke firebase
+    console.log('url firebase: ', urlFirebase);
+
     Fire.database()
-      .ref(
-        `chatting/${user.uid}_${
-          dataDoctor.data.uid
-        }/allChat/${year}-${month}-${date}`,
-      )
+      .ref(urlFirebase)
       .push(data)
       .then(() => {
         setChatContent('');
