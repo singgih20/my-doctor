@@ -19,7 +19,8 @@ const UpdateProfile = ({navigation}) => {
   useEffect(() => {
     getData('user').then(res => {
       const data = res;
-      setPhoto({uri: res.photo});
+      const tempPhoto = res?.photo?.length > 1 ? {uri: res.photo} : ILNullPhoto;
+      setPhoto(tempPhoto);
       setProfile(data);
     });
   }, []);
@@ -31,11 +32,9 @@ const UpdateProfile = ({navigation}) => {
       } else {
         updatePassword();
         updateProfileData();
-        navigation.replace('MainApp');
       }
     } else {
       updateProfileData();
-      navigation.replace('MainApp');
     }
   };
 
@@ -56,7 +55,13 @@ const UpdateProfile = ({navigation}) => {
       .ref(`users/${profile.uid}/`)
       .update(data)
       .then(() => {
-        storeData('user', data);
+        storeData('user', data)
+          .then(() => {
+            navigation.replace('MainApp');
+          })
+          .catch(() => {
+            showError('Terjadi Masalah');
+          });
       })
       .catch(err => {
         showError(err.message);

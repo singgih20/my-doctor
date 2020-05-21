@@ -22,7 +22,6 @@ const Messages = ({navigation}) => {
         const promises = await Object.keys(oldData).map(async key => {
           const urlUidDoctor = `doctors/${oldData[key].uidPartner}`;
           const detailDoctor = await rootDB.child(urlUidDoctor).once('value');
-          console.log('detail doctors: ', detailDoctor.val());
           data.push({
             id: key,
             detailDoctor: detailDoctor.val(),
@@ -32,7 +31,6 @@ const Messages = ({navigation}) => {
 
         await Promise.all(promises);
 
-        console.log('new data history: ', data);
         setHistoryChat(data);
       }
     });
