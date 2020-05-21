@@ -1,4 +1,4 @@
-package com.mydoctor;
+package com.prawito.mydoctor;
 
 import com.facebook.react.ReactActivity;
 
