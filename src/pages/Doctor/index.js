@@ -56,7 +56,7 @@ const Doctor = ({navigation}) => {
 
   const getCategoryDoctor = () => {
     Fire.database()
-      .ref('category_doctor/')
+      .ref('category_doc/')
       .once('value')
       .then(res => {
         if (res.val()) {
